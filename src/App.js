@@ -1,11 +1,16 @@
-
+import React, { useState } from 'react';
 import './App.css';
+import MainHeader from './Components/MainHeader/MainHeader';
 
 function App() {
-  return (
-    <div className="App">
+  const [isLoggedIn, setIsLoggedIn] = useState(true)
 
-    </div>
+
+
+  return (
+    <React.Fragment>
+      <MainHeader isAuthenticated={isLoggedIn} />
+    </React.Fragment>
   );
 }
 
