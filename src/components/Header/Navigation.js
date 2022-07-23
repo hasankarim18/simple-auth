@@ -19,7 +19,7 @@ const Navigation = (props) => {
     }
 
     return (
-        <Navbar className="container" color="light" light expand="md">
+        <Navbar className="container" color="dark" dark expand="md">
             <NavbarBrand href="/">Simple auth</NavbarBrand>
             <NavbarToggler onClick={toggle} />
             <Collapse className="justify-content-end" isOpen={isOpen} navbar>
