@@ -1,0 +1,20 @@
+.login {}
+
+
+
+.control input {
+    width: 100%;
+
+}
+
+.control input:focus {
+    width: 100%;
+    border: 1px solid blueviolet;
+
+}
+
+.invalid input {
+    border: 1px solid orangered;
+    background-color: rgb(211, 98, 207, 0.34);
+
+}
