@@ -4,129 +4,144 @@ import Card from '../UI/Card/Card';
 import classes from './Login.module.css';
 import Button from '../UI/Button/Button';
 
-const emailInitialState = {
-    value: '',
-    isValid: null
-}
-
-const emailReducer = (state, action) => {
-    switch (action.type) {
-        case 'USER_INPUT':
-            //  console.log(action.payload)
-            return {
-                ...state,
-                value: action.payload,
-                isValid: action.payload.includes('@')
-            }
-        case 'INPUT_BLUR':
-            return {
-                ...state,
-                value: state.value,
-                isValid: state.value.includes('@')
-            }
-
-        default:
-            return state;
+const initialState = {
+    email: {
+        value: '',
+        isValid: null
+    },
+    password: {
+        value: '',
+        isValid: null
     }
 }
 
-const InitialasswordState = {
-    value: '',
-    isValid: null
-}
 
-const passwordReducer = (state, action) => {
+const loginReducer = (state, action) => {
     switch (action.type) {
+        case 'EMAIL_INPUT':
+            return {
+                ...state,
+                email: {
+                    value: action.payload,
+                    isValid: action.payload.includes('@')
+                }
+            }
         case 'PASSWORD_INPUT':
+            //  console.log(action.payload)
             return {
                 ...state,
-                value: action.payload,
-                isValid: action.payload.trim().length > 6
+                password: {
+                    value: action.payload,
+                    isValid: action.payload.trim().length > 6
+                }
             }
-        case 'PASSWORD_IS_VALID':
+        case 'EMAIL_VALIDATOR':
+            console.log('email validator')
             return {
                 ...state,
-                value: state.value,
-                isValid: state.value.trim().length > 6
+                email: {
+                    value: state.email.value,
+                    isValid: state.email.isValid
+                }
             }
+
+        case 'PASSWORD_VALIDATOR':
+            return {
+                ...state,
+                password: {
+                    value: state.password.value,
+                    isValid: state.password.isValid
+                }
+            }
+
         default:
             return state
     }
 
 }
 
+
+
 const Login = (props) => {
 
     const [formIsValid, setFormIsValid] = useState(false);
+    const [LoginState, dispatcLogin] = useReducer(loginReducer, initialState)
 
-    const [emailState, dispatchEmail] = useReducer(emailReducer, emailInitialState)
-    const [passwordState, dispatchPassword] = useReducer(passwordReducer, InitialasswordState)
+    console.log(LoginState.email.isValid)
+    console.log(LoginState.password.isValid)
+    useEffect(() => {
 
+        const formValid = setTimeout(() => {
+            console.log('setformvalid')
+            setFormIsValid(
+                LoginState.email.isValid && LoginState.password.isValid
+            )
+        }, 600);
+
+        return () => {
+            console.log('CLENEUP')
+            clearTimeout(formValid)
+        }
+
+    }, [LoginState.email.isValid, LoginState.password.isValid])
 
     const emailChangeHandler = (event) => {
-        dispatchEmail({
-            type: 'USER_INPUT',
+        dispatcLogin({
+            type: 'EMAIL_INPUT',
             payload: event.target.value
         })
-
-        setFormIsValid(
-            emailState.value.includes('@') && passwordState.value.trim().length > 6
-        )
     };
 
     const passwordChangeHandler = (event) => {
-        dispatchPassword({
+        dispatcLogin({
             type: 'PASSWORD_INPUT',
             payload: event.target.value
         })
-
-        setFormIsValid(
-            passwordState.value.trim().length > 6 && emailState.isValid)
     };
 
     const validateEmailHandler = () => {
-        dispatchEmail({
-            type: 'INPUT_BLUR',
+        dispatcLogin({
+            type: 'EMAIL_VALIDATOR'
         })
     };
 
     const validatePasswordHandler = () => {
-
-        dispatchPassword({
-            type: 'PASSWORD_IS_VALID'
+        dispatcLogin({
+            type: 'PASSWORD_VALIDATOR'
         })
+
     };
 
     const submitHandler = (event) => {
         event.preventDefault();
-        props.onLogin(emailState.value, passwordState.value);
+        props.onLogin(LoginState.email.value, LoginState.password.value);
     };
-
+    //   console.log(LoginState.email.isValid)
     return (
         <Card className={classes.login}>
             <form onSubmit={submitHandler}>
                 <div
-                    className={`${classes.control} ${emailState.isValid === false ? classes.invalid : ''
+                    className={`${classes.control} ${LoginState.email.isValid === false ? classes.invalid : ''
                         }`}
                 >
                     <label htmlFor="email">E-Mail</label>
                     <input
                         type="email"
                         id="email"
-                        value={emailState.value}
+                        value={LoginState.email.value}
                         onChange={emailChangeHandler}
                         onBlur={validateEmailHandler}
                     />
                 </div>
                 <div
-                    className={`${classes.control} ${passwordState.isValid === false ? classes.invalid : ''
+                    className={`${classes.control} ${LoginState.password.isValid === false ? classes.invalid : ''
                         }`}
                 >
                     <label htmlFor="password">Password</label>
                     <input
                         type="password"
                         id="password"
-                        value={passwordState.value}
+                        value={LoginState.password.value}
                         onChange={passwordChangeHandler}
                         onBlur={validatePasswordHandler}
                     />
