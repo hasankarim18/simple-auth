@@ -36,12 +36,12 @@ const loginReducer = (state, action) => {
                 }
             }
         case 'EMAIL_VALIDATOR':
-            console.log('email validator')
+            //  console.log('email validator')
             return {
                 ...state,
                 email: {
                     value: state.email.value,
-                    isValid: state.email.isValid
+                    isValid: state.email.isValid === null ? false : state.email.isValid
                 }
             }
 
@@ -50,7 +50,7 @@ const loginReducer = (state, action) => {
                 ...state,
                 password: {
                     value: state.password.value,
-                    isValid: state.password.isValid
+                    isValid: state.password.isValid === null ? false : state.password.isValid
                 }
             }
 
@@ -67,19 +67,19 @@ const Login = (props) => {
     const [formIsValid, setFormIsValid] = useState(false);
     const [LoginState, dispatcLogin] = useReducer(loginReducer, initialState)
 
-    console.log(LoginState.email.isValid)
-    console.log(LoginState.password.isValid)
+
+
     useEffect(() => {
 
         const formValid = setTimeout(() => {
-            console.log('setformvalid')
+            //  console.log('setformvalid')
             setFormIsValid(
                 LoginState.email.isValid && LoginState.password.isValid
             )
         }, 600);
 
         return () => {
-            console.log('CLENEUP')
+            // console.log('CLENEUP')
             clearTimeout(formValid)
         }
 
