@@ -64,16 +64,18 @@ const Login = (props) => {
     const { isValid: emailIsValid } = emailState
     const { isValid: passwordisValid } = passwordState
 
+    console.log(emailState.isValid)
+
     useEffect(() => {
         const setForm = setTimeout(() => {
-            console.log('setform')
+            // console.log('setform')
             setFormIsValid(
                 emailState.isValid && passwordState.isValid
             )
         }, 500);
 
         return () => {
-            console.log('CLENE_UP')
+            // console.log('CLENE_UP')
             clearInterval(setForm)
         }
 
