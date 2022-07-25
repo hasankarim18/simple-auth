@@ -15,8 +15,7 @@ const AuthContextProvider = (props) => {
 
     const loginHandler = (email, password) => {
         ///
-        console.log('login handlers')
-        console.log(email, password)
+
         localStorage.setItem('isLoggedIn', '1')
         //
         setIsLoggedIn(true)
