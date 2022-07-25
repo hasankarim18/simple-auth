@@ -6,7 +6,7 @@ import AuthContext from '../../context/AuthContext';
 const Navigation = () => {
 
     const ctx = useContext(AuthContext)
-    console.log(ctx)
+    // console.log(ctx)
 
     return (
         <nav className={classes.nav}>
