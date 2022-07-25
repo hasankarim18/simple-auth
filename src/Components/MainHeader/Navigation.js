@@ -3,7 +3,7 @@ import classes from './Navigation.module.css';
 import AuthContext from '../../context/AuthContext';
 
 
-const Navigation = (props) => {
+const Navigation = () => {
 
     const ctx = useContext(AuthContext)
     console.log(ctx)
